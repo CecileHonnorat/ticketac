@@ -79,9 +79,8 @@ router.get('/result', function(req, res, next) {
 });
 
 //Route choix destination
-router.post('/recherche', async function(req, res, next){
-  res.render('/result')
-  res.redirect('/nonresult')
+router.get('/recherche', async function(req, res, next){
+  res.render('recherche')
 })
 
 //Route si pas de résultats
