@@ -14,7 +14,7 @@ router.post('/sign-in', async function(req,res,next){
 
   var searchUser = await userModel.findOne({
     email: req.body.email,
-    password: req.body.password
+    password: req.body.password,
   })
 
   if(searchUser!= null){
@@ -31,32 +31,17 @@ router.post('/sign-in', async function(req,res,next){
 //Route SIGN-UP
 router.post('/sign-up', async function(req,res,next){
 
-  var searchUser = await userModel.findOne({
-    email: req.body.email
-  })
-  
-  if(!searchUser){
     var newUser = new userModel({
-      lastname: req.body.lastName,
-      firstname: req.body.firstName,
+      lastName: req.body.lastName,
+      firstName: req.body.firstName,
       email: req.body.email,
       password: req.body.password,
     })
   
     var newUserSave = await newUser.save();
-  
-    req.session.user = {
-      name: newUserSave.email,
-      id: newUserSave._id,
-    }
-  
-    console.log(req.session.user)
-  
-    res.redirect('/recherche')
-  } else {
-    res.redirect('/')
-  }
+    console.log(newUserSave);  
+    res.render('recherche', {newUserSave})
   
 });
 
-module.exports = router;
+module.exports = router
