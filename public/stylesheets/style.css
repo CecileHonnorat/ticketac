@@ -9,7 +9,9 @@ body {
   background: linear-gradient(to bottom, #c4dfe9, #2d7bab )no-repeat;
   height: 100vh;
 }
-
+footer{
+  color: white;
+}
 a {
   color: #00B7FF;
 }
