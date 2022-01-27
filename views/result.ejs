@@ -17,12 +17,13 @@
         <div class="container-fluid result">
             <div class="col-12 text-center">
                 <div class="col-8 mt-5 mb-3">
-                    <h4>Tickets available on <%=newJourney.date%> :</h4>
+                    <% for (var i=0; i <newJourney.length; i++){%>
+                    <h4>Tickets available on <%=dateFormat(newJourney[i].date)%> :</h4>
                 </div>
             </div>
             <div class="col-8 align-items-center">
                 <ul class="list-group"></ul>
-                <% for (var i=0; i <newJourney.length; i++){%>
+                
                     <li class="list-group-item d-flex justify-content-between align-items-center mb-2 p-4">
                         <div class="cities fw-bold">
                             <%=newJourney[i].departure%> / <%=newJourney[i].arrival%>
