@@ -10,10 +10,13 @@
 </head>
 
 <body>
-  <div class="container">
+  <%- include('navbar'); %>
+
+  <div class="container-fluid h-100">
+    
     <div class="row">
       <!-- SIGN IN AREA -->
-      <div class="col-12 col-sm-6 text-center">
+      <div class="col-12 col-sm-6 text-center ">
 
         <div class="formArea">
 
@@ -21,8 +24,8 @@
 
           <form action="/sign-in" method="POST">
             <div class="form-group">
-              <input name="email" type="email" class="form-control" aria-describedby="emailHelp" placeholder="Enter">
-              <input name="password" type="password" class="form-control" placeholder="Enter password">
+              <input name="email" type="email" class="form-control" aria-describedby="emailHelp" placeholder="Email">
+              <input name="password" type="password" class="form-control" placeholder="Password">
             </div>
 
             <button type="submit" class="btn btn-danger">Confirm</button>
@@ -41,10 +44,10 @@
 
           <form action="/users/sign-up" method="post">
             <div class="form-group">
-              <input type="text" class="form-control" placeholder="Enter username" name="lastName">
-              <input type="text" class="form-control" placeholder="Enter username" name="firstName">
+              <input type="text" class="form-control" placeholder="Name" name="lastName">
+              <input type="text" class="form-control" placeholder="FirstName" name="firstName">
               <input type="email" class="form-control" aria-describedby="emailHelp" placeholder="Email" name="email">
-              <input type="password" class="form-control" placeholder="Enter password" name="password">
+              <input type="password" class="form-control" placeholder="Password" name="password">
             </div>
 
             <button type="submit" class="btn btn-danger">Confirm</button>

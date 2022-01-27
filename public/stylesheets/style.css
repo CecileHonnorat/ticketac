@@ -1,11 +1,26 @@
+html {
+  position: relative;
+  min-height: 100%;
+}
+
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
   background: linear-gradient(to bottom, #c4dfe9, #2d7bab )no-repeat;
   height: 100vh;
 }
-   
 
 a {
   color: #00B7FF;
+}
+.titleForm {
+  color: white;
+}
+.container-fluid{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.form-control{
+  margin : 15px;
 }
