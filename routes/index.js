@@ -87,8 +87,10 @@ var newJourney = await journeyModel.find(
     arrival : req.body.to,
     date : req.body.date 
   });
+  var date = req.body.date;
+
 console.log(newJourney);
-  res.render('result', {newJourney})
+  res.render('result', {newJourney, date})
 })
 
 //Route si pas de résultats
