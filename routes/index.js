@@ -75,7 +75,7 @@ router.get('/result', function(req, res, next) {
   }
 
 
-  res.render('index', { title: 'Express' });
+  res.render('result', { title: 'Express' });
 });
 
 //Route choix destination
@@ -86,11 +86,15 @@ router.post('/recherche', async function(req, res, next){
 
 //Route si pas de résultats
 router.get('/nonresult', async function(req, res, next){
-  res.redirect('/recherche')
+  res.render('nonresult')
 })
 
 router.get('/mylasttrip', async function(req, res, next){
-  res.render('/mylasttrip')
+  res.render('mylasttrip')
+})
+
+router.get('/trajet', async function(req, res, next){
+  res.render('trajet')
 })
 
 module.exports = router;
