@@ -33,24 +33,10 @@
                     <tbody>
                         <tr>
                             <th scope="row">1</th>
-                            <td>Paris/Lille</td>
-                            <td>02/02/2019</td>
-                            <td>15 pm</td>
-                            <td>93€</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>Paris/Lille</td>
-                            <td>02/02/2019</td>
-                            <td>15 pm</td>
-                            <td>93€</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td>Paris/Lille</td>
-                            <td>02/02/2019</td>
-                            <td>15 pm</td>
-                            <td>93€</td>
+                            <td><%=trajet.departure%>/<%=trajet.arrival%></td>
+                            <td><%=dateFormat(trajet.date)%></td>
+                            <td><%=trajet.departureTime%></td>
+                            <td><%=trajet.price%>€</td>
                         </tr>
                         <tr class="table-danger">
                             <th scope="row">Total</th>

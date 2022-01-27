@@ -16,27 +16,29 @@
     <%- include('navbar'); %>
         <div class="container-fluid result">
             <div class="col-12 text-center">
-                    <div class="col-8 mt-5 mb-3">
-                        <h4>Tickets available on <> :</h4>
-                    </div>
+                <div class="col-8 mt-5 mb-3">
+                    <h4>Tickets available on <%=newJourney.date%> :</h4>
                 </div>
-                        <div class="col-8 align-items-center">
-                            <ul class="list-group">
-                                <li class="list-group-item d-flex justify-content-between align-items-center mb-2 p-4">
-                                    <div class="cities fw-bold">Paris / Lille</div>
-                                    <div class="info">Train departure at: 15pm</div>
-                                    <div class="cities fw-bold">Prix €</div>
-                                    <a href="trajet?id=" type="button" class="btn btn-danger">OK</a>
-                                </li>
-                                <li class="list-group-item align-items-center p-4 justify-content-between d-flex">
-                                        <div class="cities fw-bold">Paris / Lille</div>
-                                        <div class="info">Train departure at: 15pm</div>
-                                        <div class="cities fw-bold">Prix €</div>
-                                    <a href="trajet?id=" type="button" class="btn btn-danger">OK</a>
-                                </li>
-                            </ul>
-                    </div>
             </div>
+            <div class="col-8 align-items-center">
+                <ul class="list-group"></ul>
+                <% for (var i=0; i <newJourney.length; i++){%>
+                    <li class="list-group-item d-flex justify-content-between align-items-center mb-2 p-4">
+                        <div class="cities fw-bold">
+                            <%=newJourney[i].departure%> / <%=newJourney[i].arrival%>
+                        </div>
+                        <div class="info">Train departure at: <%=newJourney[i].departureTime%>
+                        </div>
+                        <div class="cities fw-bold">Prix <%=newJourney[i].price%>€</div>
+                        <a href="trajet?id=<%=newJourney[i].id%>" type="button" class="btn btn-danger">OK</a>
+                    </li>
+
+                    <% } %>
+
+
+                        </ul>
+            </div>
+        </div>
 </body>
 
 </html>

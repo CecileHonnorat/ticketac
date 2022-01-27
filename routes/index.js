@@ -3,6 +3,7 @@ var router = express.Router();
 var journeyModel = require('../models/journey');
 var userModel = require('../models/user')
 const mongoose = require('mongoose');
+const { formatArgs } = require('debug/src/browser');
 
 // useNewUrlParser ;)
 var options = {
@@ -58,29 +59,36 @@ router.get('/save', async function(req, res, next) {
 
 // Cette route est juste une verification du Save.
 // Vous pouvez choisir de la garder ou la supprimer.
-router.get('/result', function(req, res, next) {
+// router.get('/result', function(req, res, next) {
 
-  // Permet de savoir combien de trajets il y a par ville en base
-  for(i=0; i<city.length; i++){
+//   // Permet de savoir combien de trajets il y a par ville en base
+//   for(i=0; i<city.length; i++){
 
-    journeyModel.find( 
-      { departure: city[i] } , //filtre
+//     journeyModel.find( 
+//       { departure: city[i] } , //filtre
   
-      function (err, journey) {
+//       function (err, journey) {
 
-          console.log(`Nombre de trajets au départ de ${journey[0].departure} : `, journey.length);
-      }
-    )
+//           console.log(`Nombre de trajets au départ de ${journey[0].departure} : `, journey.length);
+//       }
+//     )
 
-  }
+//   }
 
 
-  res.render('result', { title: 'Express' });
-});
+//   res.render('result', { title: 'Express' });
+// });
 
 //Route choix destination
-router.get('/recherche', async function(req, res, next){
-  res.render('recherche')
+router.post('/recherche', async function(req, res, next){
+var newJourney = await journeyModel.find(
+  {
+    departure : req.body.from,
+    arrival : req.body.to,
+    date : req.body.date 
+  });
+console.log(newJourney);
+  res.render('result', {newJourney})
 })
 
 //Route si pas de résultats
@@ -93,7 +101,14 @@ router.get('/mylasttrip', async function(req, res, next){
 })
 
 router.get('/trajet', async function(req, res, next){
-  res.render('trajet')
+  var trajet = await journeyModel.findById({
+    _id : req.query.id
+  })
+  res.render('trajet', {trajet})
+})
+
+router.get('/recherche', async function(req, res, next){
+  res.render('recherche')
 })
 
 module.exports = router;
