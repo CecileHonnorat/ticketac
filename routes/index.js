@@ -78,4 +78,19 @@ router.get('/result', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
+//Route choix destination
+router.post('/recherche', async function(req, res, next){
+  res.render('/result')
+  res.redirect('/nonresult')
+})
+
+//Route si pas de résultats
+router.get('/nonresult', async function(req, res, next){
+  res.redirect('/recherche')
+})
+
+router.get('/mylasttrip', async function(req, res, next){
+  res.render('/mylasttrip')
+})
+
 module.exports = router;
