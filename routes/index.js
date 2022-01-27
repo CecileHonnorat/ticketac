@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var journeyModel = require('../models/journey')
+var journeyModel = require('../models/journey');
 const mongoose = require('mongoose');
 
 // useNewUrlParser ;)
