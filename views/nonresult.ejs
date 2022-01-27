@@ -13,9 +13,11 @@
 
 <body>
     <%- include('navbar'); %>    
-    <div class="container-fluid h-100">
-        Oops ! No trains available...
-        <a href="/recherche" type="button" class="btn btn-danger">Home</a>
+    <div class="container-fluid h-100 d-flex">
+        <div class="row">
+            <div class="text-center"><h4>Oops ! No trains available...</h4></div>
+        <div class="text-center"><a href="/recherche" type="button" class="btn btn-danger">Home</a></div>  
+    </div>
     </div>
 </body>
 </html>
