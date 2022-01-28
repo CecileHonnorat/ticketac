@@ -30,12 +30,12 @@
                         </tr>
                     </thead>
                     <tbody>
-                       <% for (var i=0; i<baskets.journeys.length; i++ ){ %>
+                       <% for (var i=0; i<trips.journeys.length; i++ ){ %>
                         <tr>
-                            <td><%=dateFormat(baskets.journeys[i].date)%></td>
-                            <td><%=baskets.journeys[i].departure /ubaskets.journeys[i].arrival%></td> 
-                            <td><%=basketsbaskets.journeys[i].departureTime%></td>
-                            <td><%=baskets.journeys[i].price%> €</td>
+                            <td><%=dateFormat(trips.journeys[i].date)%></td>
+                            <td><%=trips.journeys[i].departure %> / <%= trips.journeys[i].arrival%></td> 
+                            <td><%=trips.journeys[i].departureTime%></td>
+                            <td><%=trips.journeys[i].price%> €</td>
                         </tr>
                       <% } %>
                     </tbody>
