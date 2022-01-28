@@ -120,7 +120,7 @@ router.get('/nonresult', async function (req, res, next) {
   if(req.session.user===undefined){
     res.redirect('/')
   }
-  res.render('nonresult')
+  res.render('nonresult', {user: req.session.user})
 })
 
 // Route lasttrip 
