@@ -20,7 +20,9 @@ var options = {
 var city = ["Paris", "Marseille", "Nantes", "Lyon", "Rennes", "Melun", "Bordeaux", "Lille"]
 var date = ["2018-11-20", "2018-11-21", "2018-11-22", "2018-11-23", "2018-11-24"]
 
-
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -86,9 +88,9 @@ router.post('/recherche', async function (req, res, next) {
   var user = req.session.user
    var searchJourney = await journeyModel.find(
     {
-      departure: req.body.from,
-      arrival: req.body.to,
-      date: req.body.date
+      departure: capitalizeFirstLetter(req.body.from.toString().toLowerCase()),
+      arrival: capitalizeFirstLetter(req.body.to.toString().toLowerCase()),
+      date: capitalizeFirstLetter(req.body.date.toString().toLowerCase())
     });
   var date = req.body.date;
   if (searchJourney == ''){
@@ -110,11 +112,18 @@ router.get('/nonresult', async function (req, res, next) {
   res.render('nonresult')
 })
 
+// Route lasttrip 
 router.get('/mylasttrip', async function (req, res, next) {
-  var userJourneys = await userModel.findById({ _id: req.session.id });
-  res.render('mylasttrip', { userJourneys })
+  var trips = await userModel.findById('61f3f26945869ef2e6680820').populate('journeys').exec();
+  res.render('mylasttrip', { trips })
 })
 
+<<<<<<< HEAD
+=======
+
+  // Route Trajet avec "panier"
+  var basket = [];
+>>>>>>> 9bc717ce7f173c44e4902bced0e45754419362fa
 router.get('/trajet', async function (req, res, next) {
   if (req.session.basket == undefined) {
     req.session.basket = []

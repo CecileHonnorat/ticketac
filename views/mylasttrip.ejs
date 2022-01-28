@@ -30,18 +30,14 @@
                         </tr>
                     </thead>
                     <tbody>
+                       <% for (var i=0; i<trips.journeys.length; i++ ){ %>
                         <tr>
-                            <td>02/02/2019</td>
-                            <td>Paris/Lille</td> 
-                            <td>15 pm</td>
-                            <td>93€</td>
+                            <td><%=dateFormat(trips.journeys[i].date)%></td>
+                            <td><%=trips.journeys[i].departure %> / <%= trips.journeys[i].arrival%></td> 
+                            <td><%=trips.journeys[i].departureTime%></td>
+                            <td><%=trips.journeys[i].price%> €</td>
                         </tr>
-                        <tr>
-                            <td>02/02/2019</td>
-                            <td>Paris/Lille</td> 
-                            <td>15 pm</td>
-                            <td>93€</td>
-                        </tr>
+                      <% } %>
                     </tbody>
                 </table>
             </div>
