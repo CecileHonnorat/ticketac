@@ -4,8 +4,9 @@ var options = {
      useNewUrlParser: true,
      useUnifiedTopology : true
        }
-
-mongoose.connect('mongodb+srv://cecileH:pA7uJfdrvkxW8k@cluster0.n2ct8.mongodb.net/ticketac?retryWrites=true&w=majority',
+       
+console.log(process.env.API_KEY)
+mongoose.connect(process.env.API_KEY,
        options,
        function(err) {
         if (err) {
