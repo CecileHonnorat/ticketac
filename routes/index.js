@@ -4,6 +4,8 @@ var journeyModel = require('../models/journey');
 var userModel = require('../models/user')
 const mongoose = require('mongoose');
 const { formatArgs } = require('debug/src/browser');
+const { findOne, find } = require('../models/journey');
+const req = require('express/lib/request');
 
 // useNewUrlParser ;)
 var options = {
@@ -81,6 +83,7 @@ router.get('/save', async function (req, res, next) {
 
 //Route choix destination
 router.post('/recherche', async function (req, res, next) {
+  var user = req.session.user
    var searchJourney = await journeyModel.find(
     {
       departure: req.body.from,
@@ -92,10 +95,15 @@ router.post('/recherche', async function (req, res, next) {
     res.redirect('nonresult')
   }else { 
     var newJourney = searchJourney;
-    res.render('result', { newJourney, date })}
+    res.render('result', { newJourney, date, user })}
   console.log(newJourney);
 })
 
+//Route Results
+router.get('/result', async function(req, res, next){
+  var user = req.session.user
+  res.render('result', {user})
+})
 
 //Route si pas de résultats
 router.get('/nonresult', async function (req, res, next) {
@@ -107,14 +115,29 @@ router.get('/mylasttrip', async function (req, res, next) {
   res.render('mylasttrip', { userJourneys })
 })
 
-  var basket = [];
 router.get('/trajet', async function (req, res, next) {
+  if (req.session.basket == undefined) {
+    req.session.basket = []
+  }
+  const journeyToFind = req.session.basket.find(e => e._id == req.query._id);
   var trajet = await journeyModel.findById({
     _id: req.query.id
   })
-  basket.push(trajet)
-  console.log(basket);
-  res.render('trajet', { trajet, basket })
+  if(!journeyToFind){
+    req.session.basket.push(trajet)
+  }
+  res.render('trajet', { trajet, basket: req.session.basket })
+})
+
+// Valider panier
+router.get('/validation-basket', async function(req, res, next){
+  var user = await userModel.findById(req.session.user.id)
+  for(var i = 0; i < req.session.basket.length; i++){
+    user.journeys.push(req.session.basket[i]._id)
+  }
+  await user.save()
+  req.session.basket = []
+  res.render('recherche', {user: req.session.user, basket: req.session.basket})
 })
 
 router.get('/recherche', async function (req, res, next) {
@@ -124,6 +147,17 @@ router.get('/recherche', async function (req, res, next) {
 //Route création POPUP
 router.get('/confirm', async function(req, res, next){
   res.render('index')
+})
+
+//Route suppression Ticket
+router.get('/delete', async function(req, res, next){
+  req.session.basket.splice(req.query.position,1)
+  console.log();
+/*   var trajet = await userModel.findById("61f3f26945869ef2e6680820").populate('basket').exec()
+  var deleteRoute = trajet.basket.splice(req.query.position, 1);
+  await trajet.save()
+  var newBasket = await userModel.findById("61f3f26945869ef2e6680820").populate('basket').exec() */
+  res.render('trajet', {basket})
 })
 
 module.exports = router;
