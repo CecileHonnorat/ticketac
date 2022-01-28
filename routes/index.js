@@ -26,7 +26,8 @@ function capitalizeFirstLetter(string) {
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-  res.render('index', { title: 'Express' });
+
+  res.render('index', { title: 'Express', user :req.session.user });
 });
 
 
@@ -85,7 +86,10 @@ router.get('/save', async function (req, res, next) {
 
 //Route choix destination
 router.post('/recherche', async function (req, res, next) {
-  var user = req.session.user
+  if(req.session.user===undefined){
+    res.redirect('/')
+  }
+
    var searchJourney = await journeyModel.find(
     {
       departure: capitalizeFirstLetter(req.body.from.toString().toLowerCase()),
@@ -97,34 +101,42 @@ router.post('/recherche', async function (req, res, next) {
     res.redirect('nonresult')
   }else { 
     var newJourney = searchJourney;
-    res.render('result', { newJourney, date, user })}
+    res.render('result', { newJourney, date, user : req.session.user })}
   console.log(newJourney);
 })
 
 //Route Results
 router.get('/result', async function(req, res, next){
+  if(req.session.user===undefined){
+    res.redirect('/')
+  }
   var user = req.session.user
-  res.render('result', {user})
+  var basket = basket.session.user
+  res.render('result', {user, basket})
 })
 
 //Route si pas de résultats
 router.get('/nonresult', async function (req, res, next) {
+  if(req.session.user===undefined){
+    res.redirect('/')
+  }
   res.render('nonresult')
 })
 
 // Route lasttrip 
 router.get('/mylasttrip', async function (req, res, next) {
-  var trips = await userModel.findById('61f3f26945869ef2e6680820').populate('journeys').exec();
-  res.render('mylasttrip', { trips })
+  if(req.session.user===undefined){
+    res.redirect('/')
+  }
+
+  var trips = await userModel.findById(req.session.user.id).populate('journeys').exec();
+  res.render('mylasttrip', { trips, user : req.session.user })
 })
 
-<<<<<<< HEAD
-=======
-
-  // Route Trajet avec "panier"
-  var basket = [];
->>>>>>> 9bc717ce7f173c44e4902bced0e45754419362fa
 router.get('/trajet', async function (req, res, next) {
+  if(req.session.user===undefined){
+    res.redirect('/')
+  }
   if (req.session.basket == undefined) {
     req.session.basket = []
   }
@@ -134,12 +146,16 @@ router.get('/trajet', async function (req, res, next) {
   })
   if(!journeyToFind){
     req.session.basket.push(trajet)
-  }
-  res.render('trajet', { trajet, basket: req.session.basket })
+  
+  res.render('trajet', { trajet, basket: req.session.basket, user:req.session.user })
+} else {res.redirect('recherche')}
 })
 
 // Valider panier
 router.get('/validation-basket', async function(req, res, next){
+  if(req.session.user===undefined){
+    res.redirect('/')
+  }
   var user = await userModel.findById(req.session.user.id)
   for(var i = 0; i < req.session.basket.length; i++){
     user.journeys.push(req.session.basket[i]._id)
@@ -150,7 +166,11 @@ router.get('/validation-basket', async function(req, res, next){
 })
 
 router.get('/recherche', async function (req, res, next) {
-  res.render('recherche')
+  if(req.session.user===undefined){
+    res.redirect('/')
+  }
+  console.log(req.session.user);
+  res.render('recherche', {user:req.session.user})
 })
 
 //Route création POPUP
@@ -160,13 +180,16 @@ router.get('/confirm', async function(req, res, next){
 
 //Route suppression Ticket
 router.get('/delete', async function(req, res, next){
+  if(req.session.user===undefined){
+    res.redirect('/')
+  }
   req.session.basket.splice(req.query.position,1)
   console.log();
 /*   var trajet = await userModel.findById("61f3f26945869ef2e6680820").populate('basket').exec()
   var deleteRoute = trajet.basket.splice(req.query.position, 1);
   await trajet.save()
   var newBasket = await userModel.findById("61f3f26945869ef2e6680820").populate('basket').exec() */
-  res.render('trajet', {basket})
+  res.render('trajet', {basket: req.session.basket, user: req.session.user})
 })
 
 module.exports = router;

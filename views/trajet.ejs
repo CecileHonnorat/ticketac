@@ -32,7 +32,8 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <%for(var i = 0; i< basket.length ; i++){ %>
+                            <% var total=0;
+                            for(var i = 0; i< basket.length ; i++){ %>
                                 <tr>
                                     <th scope="row" name="position"><%=i+1%></th>
                                     <td>
@@ -51,7 +52,7 @@
                                     </td>
 
                                 </tr>
-                                <% } %>
+                                <% total += basket[i].price } %>
 
                             <tr class="table-danger">
                                 <th scope="row">Total</th>
@@ -59,8 +60,8 @@
                                 <td></td>
                                 <td></td>
                                 <td>
-<!--                                     <%=trajet.price%>€
- -->                                </td>
+                                    <%=total %>€
+                               </td>
                                 <td></td>
                             </tr>
                         </tbody>

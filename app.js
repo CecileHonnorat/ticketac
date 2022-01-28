@@ -22,7 +22,8 @@ app.use(
   );
 
 app.locals.dateFormat = function (date) {
-  return date.toLocaleDateString("fr")
+  var dateOfTravel = new Date(date);
+  return dateOfTravel.toLocaleDateString("fr")
   }
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
