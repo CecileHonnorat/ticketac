@@ -10,45 +10,45 @@ var options = {
   connectTimeoutMS: 5000,
   useNewUrlParser: true,
   useUnifiedTopology: true
- };
+};
 
 // --------------------- BDD -----------------------------------------------------
 
 
-var city = ["Paris","Marseille","Nantes","Lyon","Rennes","Melun","Bordeaux","Lille"]
-var date = ["2018-11-20","2018-11-21","2018-11-22","2018-11-23","2018-11-24"]
+var city = ["Paris", "Marseille", "Nantes", "Lyon", "Rennes", "Melun", "Bordeaux", "Lille"]
+var date = ["2018-11-20", "2018-11-21", "2018-11-22", "2018-11-23", "2018-11-24"]
 
 
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.get('/', function (req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
 
 // Remplissage de la base de donnée, une fois suffit
-router.get('/save', async function(req, res, next) {
+router.get('/save', async function (req, res, next) {
 
   // How many journeys we want
   var count = 300
 
   // Save  ---------------------------------------------------
-    for(var i = 0; i< count; i++){
+  for (var i = 0; i < count; i++) {
 
     departureCity = city[Math.floor(Math.random() * Math.floor(city.length))]
     arrivalCity = city[Math.floor(Math.random() * Math.floor(city.length))]
 
-    if(departureCity != arrivalCity){
+    if (departureCity != arrivalCity) {
 
-      var newUser = new journeyModel ({
-        departure: departureCity , 
-        arrival: arrivalCity, 
+      var newUser = new journeyModel({
+        departure: departureCity,
+        arrival: arrivalCity,
         date: date[Math.floor(Math.random() * Math.floor(date.length))],
-        departureTime:Math.floor(Math.random() * Math.floor(23)) + ":00",
+        departureTime: Math.floor(Math.random() * Math.floor(23)) + ":00",
         price: Math.floor(Math.random() * Math.floor(125)) + 25,
       });
-       
-       await newUser.save();
+
+      await newUser.save();
 
     }
 
@@ -66,7 +66,7 @@ router.get('/save', async function(req, res, next) {
 
 //     journeyModel.find( 
 //       { departure: city[i] } , //filtre
-  
+
 //       function (err, journey) {
 
 //           console.log(`Nombre de trajets au départ de ${journey[0].departure} : `, journey.length);
@@ -80,38 +80,53 @@ router.get('/save', async function(req, res, next) {
 // });
 
 //Route choix destination
-router.post('/recherche', async function(req, res, next){
-var newJourney = await journeyModel.find(
-  {
-    departure : req.body.from,
-    arrival : req.body.to,
-    date : req.body.date 
-  });
+router.post('/recherche', async function (req, res, next) {
+   var searchJourney = await journeyModel.find(
+    {
+      departure: req.body.from,
+      arrival: req.body.to,
+      date: req.body.date
+    });
   var date = req.body.date;
-
-console.log(newJourney);
-  res.render('result', {newJourney, date})
+  if (searchJourney == ''){
+    res.redirect('nonresult')
+  }else { 
+    var newJourney = searchJourney;
+    res.render('result', { newJourney, date })}
+  console.log(newJourney);
 })
 
 //Route si pas de résultats
-router.get('/nonresult', async function(req, res, next){
+router.get('/nonresult', async function (req, res, next) {
   res.render('nonresult')
 })
 
-router.get('/mylasttrip', async function(req, res, next){
-  var userJourneys = await userModel.findById({_id : req.session.id});
-  res.render('mylasttrip', {userJourneys})
+// Route lasttrip 
+router.get('/mylasttrip', async function (req, res, next) {
+  console.log(user);
+  var journeys = await journeyModel.findById('61f3f26945869ef2e6680820').populate('journeys').exec();
+  res.render('mylasttrip', { journeys, user })
 })
 
-router.get('/trajet', async function(req, res, next){
+
+  // Route Trajet avec "panier"
+  var basket = [];
+router.get('/trajet', async function (req, res, next) {
   var trajet = await journeyModel.findById({
-    _id : req.query.id
+    _id: req.query.id
   })
-  res.render('trajet', {trajet})
+  basket.push(trajet)
+  console.log(basket);
+  res.render('trajet', { trajet, basket })
 })
 
-router.get('/recherche', async function(req, res, next){
+router.get('/recherche', async function (req, res, next) {
   res.render('recherche')
+})
+
+//Route création POPUP
+router.get('/confirm', async function(req, res, next){
+  res.render('index')
 })
 
 module.exports = router;
