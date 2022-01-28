@@ -104,9 +104,8 @@ router.get('/nonresult', async function (req, res, next) {
 
 // Route lasttrip 
 router.get('/mylasttrip', async function (req, res, next) {
-  console.log(user);
-  var journeys = await journeyModel.findById('61f3f26945869ef2e6680820').populate('journeys').exec();
-  res.render('mylasttrip', { journeys, user })
+  var trips = await userModel.findById('61f3f26945869ef2e6680820').populate('journeys').exec();
+  res.render('mylasttrip', { trips })
 })
 
 
