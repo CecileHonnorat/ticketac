@@ -18,7 +18,9 @@ var options = {
 var city = ["Paris", "Marseille", "Nantes", "Lyon", "Rennes", "Melun", "Bordeaux", "Lille"]
 var date = ["2018-11-20", "2018-11-21", "2018-11-22", "2018-11-23", "2018-11-24"]
 
-
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -83,9 +85,9 @@ router.get('/save', async function (req, res, next) {
 router.post('/recherche', async function (req, res, next) {
    var searchJourney = await journeyModel.find(
     {
-      departure: req.body.from,
-      arrival: req.body.to,
-      date: req.body.date
+      departure: capitalizeFirstLetter(req.body.from.toString().toLowerCase()),
+      arrival: capitalizeFirstLetter(req.body.to.toString().toLowerCase()),
+      date: capitalizeFirstLetter(req.body.date.toString().toLowerCase())
     });
   var date = req.body.date;
   if (searchJourney == ''){
