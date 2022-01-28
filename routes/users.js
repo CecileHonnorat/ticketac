@@ -31,18 +31,27 @@ router.post('/sign-in', async function(req,res,next){
 //Route SIGN-UP
 router.post('/sign-up', async function(req,res,next){
 
-    var newUser = new userModel({
-      lastName: req.body.lastName,
-      firstName: req.body.firstName,
-      email: req.body.email,
-      password: req.body.password,
-    })
-  
-    var newUserSave = await newUser.save();
-    console.log(newUserSave);  
-    res.render('recherche', {newUserSave})
-  
-});
+  var userExist = await userModel.findOne({email: req.body.email});
+
+  if (userExist == null){
+  var newUser = new userModel({
+    lastName: req.body.lastName,
+    firstName: req.body.firstName,
+    email: req.body.email,
+    password: req.body.password,
+      })
+  var newUserSave = await newUser.save();
+    req.session.user = {
+      email: newUserSave.email,
+      id: newUserSave._id
+    }
+       res.redirect('/recherche') 
+    } else if (req.body.email == "" || req.body.password == "") {
+      res.redirect('/')
+    }else {
+      console.log("email déjà utilisé");
+    res.redirect('/')}
+       });
 
 
 module.exports = router
