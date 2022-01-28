@@ -99,7 +99,8 @@ router.get('/nonresult', async function(req, res, next){
 })
 
 router.get('/mylasttrip', async function(req, res, next){
-  res.render('mylasttrip')
+  var userJourneys = await userModel.findById({_id : req.session.id});
+  res.render('mylasttrip', {userJourneys})
 })
 
 router.get('/trajet', async function(req, res, next){
