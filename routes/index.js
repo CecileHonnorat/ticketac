@@ -113,4 +113,9 @@ router.get('/recherche', async function(req, res, next){
   res.render('recherche')
 })
 
+//Route création POPUP
+router.get('/confirm', async function(req, res, next){
+  res.render('index')
+})
+
 module.exports = router;
