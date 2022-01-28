@@ -107,11 +107,14 @@ router.get('/mylasttrip', async function (req, res, next) {
   res.render('mylasttrip', { userJourneys })
 })
 
+  var basket = [];
 router.get('/trajet', async function (req, res, next) {
   var trajet = await journeyModel.findById({
     _id: req.query.id
   })
-  res.render('trajet', { trajet })
+  basket.push(trajet)
+  console.log(basket);
+  res.render('trajet', { trajet, basket })
 })
 
 router.get('/recherche', async function (req, res, next) {

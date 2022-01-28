@@ -30,29 +30,32 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>
-                                    <%=trajet.departure%>/<%=trajet.arrival%>
-                                </td>
-                                <td>
-                                    <%=dateFormat(trajet.date)%>
-                                </td>
-                                <td>
-                                    <%=trajet.departureTime%>
-                                </td>
-                                <td>
-                                    <%=trajet.price%>€
-                                </td>
-                            </tr>
+                            <%for(var i = 0; i< basket.length ; i++){ %>
+                                <tr>
+                                    <th scope="row"><%=i+1%></th>
+                                    <td>
+                                        <%=basket[i].departure%>/<%=basket[i].arrival%>
+                                    </td>
+                                    <td>
+                                        <%=dateFormat(basket[i].date)%>
+                                    </td>
+                                    <td>
+                                        <%=basket[i].departureTime%>
+                                    </td>
+                                    <td>
+                                        <%=basket[i].price%>€
+                                    </td>
+                                </tr>
+                                <% } %>
+
                             <tr class="table-danger">
                                 <th scope="row">Total</th>
                                 <td></td>
                                 <td></td>
                                 <td></td>
                                 <td>
-                                    <%=trajet.price%>€
-                                </td>
+<!--                                     <%=trajet.price%>€
+ -->                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -72,14 +75,18 @@
                             <h5 class="modal-title" id="staticBackdropLabel">Mes voyages...</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
+                        <%for(var i = 0; i< basket.length ; i++){ %>
+
                         <div class="modal-body">
                             
-                                <%=trajet.departure%>/<%=trajet.arrival%>
-                                <%=dateFormat(trajet.date)%>
-                                <%=trajet.departureTime%>
-                                <%=trajet.price%>€
+                                <%=basket[i].departure%>/<%=basket[i].arrival%>
+                                <%=dateFormat(basket[i].date)%>
+                                <%=basket[i].departureTime%>
+                                <%=basket[i].price%>€
 
                         </div>
+                        <% } %>
+
                         <div class="modal-footer">
                             <a href="/recherche" type="button" class="btn btn-primary">Home</a>
                             <a href="/"class="btn btn-danger" data-bs-dismiss="modal">Payment</a>
